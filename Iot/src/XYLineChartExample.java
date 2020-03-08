@@ -1,3 +1,5 @@
+import java.util.Vector;
+
 import javax.swing.JFrame;
 
 import org.jfree.chart.ChartFactory;
@@ -51,6 +53,26 @@ public class XYLineChartExample extends JFrame {
 	    ChartPanel panel = new ChartPanel(chart);
 	    setContentPane(panel);
 	  }
+  
+  public XYLineChartExample(String title, String desc, Vector x, Vector y) {
+	    super(title);
+
+	    // Create dataset
+	    XYDataset dataset = createDataset(x,y);
+
+	    // Create chart
+	    JFreeChart chart = ChartFactory.createXYLineChart(
+	        title.toString(),
+	        "X-Axis p",
+	        desc.toString(),
+	        dataset,
+	        PlotOrientation.VERTICAL,
+	        true, true, false);
+
+	    // Create Panel
+	    ChartPanel panel = new ChartPanel(chart);
+	    setContentPane(panel);
+	  }
 
   private XYDataset createDataset() {
     XYSeriesCollection dataset = new XYSeriesCollection();
@@ -77,6 +99,22 @@ public class XYLineChartExample extends JFrame {
 	    for (int i =0; i < s.getTime().size(); i++) {
 		    series.add(  (double) s.getTime().get(i) , (double) s.getEvents().get(i) );
 		    System.out.println(" TEST  " + (double) s.getTime().get(i)  + "     event " +  (double) s.getEvents().get(i));
+	    }
+	    //Add series to dataset
+	    dataset.addSeries(series);
+	    
+	    return dataset;
+	  }
+  
+  private XYDataset createDataset(Vector x, Vector y) {
+	    XYSeriesCollection dataset = new XYSeriesCollection();
+
+	    XYSeries series = new XYSeries("Test charge");
+	    int taille = x.size();
+	    
+	    for (int i =0; i < taille; i++) {
+		    series.add(  (double) x.get(i) , (double) y.get(i) );
+		    //System.out.println(" TEST  " + (double) x.get(i)  + "     event " +  (double) y.get(i));
 	    }
 	    //Add series to dataset
 	    dataset.addSeries(series);
